@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert'
-import { acharConflito } from './restricoes.js'
-import { cancelarAgendamento } from './cancelar-agendamento.js'
+import { acharConflito } from '../regras/conflito.js'
+import { cancelarAgendamento } from '../regras/cancelamento.js'
 
 test("cancelar muda o status para cancelado", function () {
     const lista = [

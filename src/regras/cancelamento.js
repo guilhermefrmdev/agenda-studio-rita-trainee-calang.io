@@ -12,26 +12,4 @@ function cancelarAgendamento(id, existentes) {
     return null
 }
 
-function cancelarNoStorage(id) {
-    const chave = "studio-rita:v1"
-    const valor = localStorage.getItem(chave)
-    let lista
-
-    if (valor) {
-        lista = JSON.parse(valor)
-    } else {
-        lista = []
-    }
-
-    const cancela = cancelarAgendamento(id, lista)    
-
-    if (cancela === null) {
-        return null
-    } else {
-        localStorage.setItem(chave, JSON.stringify(lista))
-        return cancela
-    }
-
-}
-
-export { cancelarAgendamento, cancelarNoStorage }
+export { cancelarAgendamento }

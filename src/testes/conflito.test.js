@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert'
-import { acharConflito } from './restricoes.js'
+import { acharConflito } from '../regras/conflito.js'
 
 // Testes da função acharConflito (arquivo: restricoes.js, se encontra na pasta src)
 //
