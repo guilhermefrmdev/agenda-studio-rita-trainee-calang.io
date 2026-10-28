@@ -1,7 +1,7 @@
-const test = require('node:test')
-const assert = require('node:assert')
-const { cancelarAgendamento } = require('./cancelar-agendamento.js')
-const { acharConflito } = require('./restricoes.js')
+import test from 'node:test'
+import assert from 'node:assert'
+import { acharConflito } from './restricoes.js'
+import { cancelarAgendamento } from './cancelar-agendamento.js'
 
 test("cancelar muda o status para cancelado", function () {
     const lista = [

@@ -1,4 +1,4 @@
-const CHAVE = 'studio-rita:v1';
+ const CHAVE = 'studio-rita:v1';
 const VAZIO = { agendamentos: [] };
 
 // Função que retorna as funções relacionadas com a persistência dos dados

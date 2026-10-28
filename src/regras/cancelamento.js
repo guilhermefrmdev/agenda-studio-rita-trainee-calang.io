@@ -34,4 +34,4 @@ function cancelarNoStorage(id) {
 
 }
 
-module.exports = { cancelarAgendamento, cancelarNoStorage }
+export { cancelarAgendamento, cancelarNoStorage }
