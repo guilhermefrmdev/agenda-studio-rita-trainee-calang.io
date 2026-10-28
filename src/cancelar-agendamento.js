@@ -9,6 +9,7 @@ function cancelarAgendamento(id, existentes) {
             }
         }
     }
+    return null
 }
 
 function cancelarNoStorage(id) {
@@ -32,3 +33,5 @@ function cancelarNoStorage(id) {
     }
 
 }
+
+module.exports = { cancelarAgendamento, cancelarNoStorage }
