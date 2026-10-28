@@ -1,3 +1,6 @@
+import { cancelarAgendamento } from './regras/cancelamento.js';
+import { acharConflito } from './regras/conflito.js';
+
 const CHAVE = 'studio-rita:v1';
 const VAZIO = { agendamentos: [] };
 
@@ -50,11 +53,36 @@ export function criarRepositorio(storage = globalThis.localStorage) {
 
             // Adiciona e persiste o agendamento
             const dados = carregar();
+
+            // Procura se já existe um agendamento nesse horário
+            const conflito = acharConflito(novoAgendamento, dados.agendamentos);
+
+            if (conflito) {
+                // Achou conflito, então não salva
+                return { ok: false, motivo: 'Esse horário já está ocupado.' };
+            }
+
             dados.agendamentos.push(novoAgendamento);
             salvar(dados);
 
             // Retorna a confirmação que o agendamento foi feito e o mesmo
             return { ok: true, agendamento: novoAgendamento };
+        },
+
+        // Cancela um agendamento pelo id
+        cancelar(id) {
+            const dados = carregar();
+
+            // Troca o status do agendamento para "cancelado"
+            const cancelado = cancelarAgendamento(id, dados.agendamentos);
+
+            if (cancelado === null) {
+                // Não achou o id, ou o agendamento já não estava como "agendado"
+                return { ok: false, motivo: 'Agendamento não encontrado ou já finalizado.' };
+            } else {
+                salvar(dados);
+                return { ok: true, agendamento: cancelado };
+            }
         }
     };
 }

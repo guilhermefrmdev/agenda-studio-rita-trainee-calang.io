@@ -1,6 +1,6 @@
-const test = require('node:test')
-const assert = require('node:assert')
-const { acharConflito } = require('./restricoes')
+import test from 'node:test'
+import assert from 'node:assert'
+import { acharConflito } from '../regras/conflito.js'
 
 // Testes da função acharConflito (arquivo: restricoes.js, se encontra na pasta src)
 //

@@ -8,7 +8,7 @@ function sobrepoe(a, b) {
 // A função recebe novo (o agendamento que a pessoa quer fazer) e existentes (lista com todos os agendamentos)
 
 function acharConflito(novo, existentes) {
-  for (i of existentes) {
+  for (const i of existentes) {
     if (
       i.status === "agendado" &&
       i.data === novo.data &&
@@ -20,4 +20,4 @@ function acharConflito(novo, existentes) {
   return null; // Se no for não retornou nada, então retorna null (o horário está livre)
 }
 
-module.exports = { sobrepoe, acharConflito };
+export { sobrepoe, acharConflito };
