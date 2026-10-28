@@ -122,5 +122,20 @@ export function criarRepositorio(storage = globalThis.localStorage) {
             if (filtro === 'ocupados') return horarios.filter(h => !h.livre);
             return horarios;
         },
+
+        // Retorna a agenda de um dia (lida do LocalStorage) em ordem de horário
+        // Traz os agendamentos "agendado" e "concluido"; os "cancelado" ficam de fora
+        // Retorno: [{ id, servicoId, data, inicio, duracao, nome, telefone, status }, ...]
+        listarAgendaDoDia(data) {
+            // Valida a data
+            if (typeof data !== 'string' || !data) return [];
+
+            const { agendamentos } = carregar();
+
+            return agendamentos
+                .filter(a => a.data === data && a.status !== 'cancelado')
+                .map(a => ({ ...a })) // devolve cópias, para não alterar os dados do repositório
+                .sort((a, b) => a.inicio - b.inicio); // do mais cedo para o mais tarde
+        },
     };
 }
