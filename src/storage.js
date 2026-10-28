@@ -83,6 +83,44 @@ export function criarRepositorio(storage = globalThis.localStorage) {
                 salvar(dados);
                 return { ok: true, agendamento: cancelado };
             }
-        }
+        },
+
+        // Retorna a lista de horários de um dia para um serviço, marcando cada um como livre ou ocupado
+        // filtro: 'todos' (padrão) | 'livres' | 'ocupados'
+        // Retorno: [{ inicio: 600, fim: 660, livre: true }, ...] (inicio e fim em minutos desde 00:00)
+        listarHorarios({ servico, data, filtro = 'todos' }) {
+            const ABERTURA = 8 * 60;     // 08:00 (ajustar se a Rita definir outro horário)
+            const FECHAMENTO = 18 * 60;  // 18:00 (nenhum serviço pode terminar depois disso)
+            const PASSO = 30;            // intervalo entre os horários oferecidos (minutos)
+
+            // Valida o serviço
+            if (!servico || !servico.duracao) return [];
+
+            // Valida a data (formato "AAAA-MM-DD")
+            const partes = typeof data === 'string' ? data.split('-').map(Number) : [];
+            if (partes.length !== 3 || partes.some(Number.isNaN)) return [];
+
+            // Monta a data local (evita erro de fuso horário) e confere se é uma data real
+            const [ano, mes, dia] = partes;
+            const dataObj = new Date(ano, mes - 1, dia);
+            if (dataObj.getFullYear() !== ano || dataObj.getMonth() !== mes - 1 || dataObj.getDate() !== dia) return [];
+
+            // Domingo não tem horários
+            if (dataObj.getDay() === 0) return [];
+
+            const { agendamentos } = carregar();
+            const horarios = [];
+
+            // Percorre o dia em passos de 30 min, só até onde o serviço ainda termina às 18:00
+            for (let inicio = ABERTURA; inicio + servico.duracao <= FECHAMENTO; inicio += PASSO) {
+                const candidato = { data, inicio, duracao: servico.duracao };
+                const livre = acharConflito(candidato, agendamentos) === null;
+                horarios.push({ inicio, fim: inicio + servico.duracao, livre });
+            }
+
+            if (filtro === 'livres') return horarios.filter(h => h.livre);
+            if (filtro === 'ocupados') return horarios.filter(h => !h.livre);
+            return horarios;
+        },
     };
 }
