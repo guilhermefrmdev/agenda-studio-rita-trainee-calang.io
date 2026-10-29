@@ -5,3 +5,5 @@
     <img alt="Static Badge" src="https://img.shields.io/badge/Calang.io-green?style=for-the-badge&link=https%3A%2F%2Fcalangio.com.br%2Fpt">
     </a>
 </div>
+
+## O site pode ser acessado via link: [https://guilhermefrmdev.github.io/agenda-studio-rita-trainee-calang.io/](https://guilhermefrmdev.github.io/agenda-studio-rita-trainee-calang.io/)
