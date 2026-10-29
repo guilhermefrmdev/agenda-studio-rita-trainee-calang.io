@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio Rita | Agenda</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="topo">
+        <h1>Studio Rita</h1>
+        <p>Beleza com hora marcada</p>
+    </header>
+
+    <nav class="abas">
+        <button class="aba aba--ativa" type="button">Agendar</button>
+        <button class="aba" type="button">Painel da Rita</button>
+    </nav>
+
+    <main>
+        <!-- agendar -->
+        <section id="aba-agendar" class="conteudo-aba">
+
+            <h2>1. Escolha o serviço</h2>
+            <div id="lista-servicos">
+                <button type="button" class="servico-card" data-servico-id="corte">
+                    <span class="servico-nome">Corte</span>
+                    <span class="servico-info">60 min</span>
+                    <span class="servico-preco">R$ 50</span>
+                </button>
+                <button type="button" class="servico-card" data-servico-id="escova">
+                    <span class="servico-nome">Escova</span>
+                    <span class="servico-info">30 min</span>
+                    <span class="servico-preco">R$ 35</span>
+                </button>
+                <button type="button" class="servico-card" data-servico-id="manicure">
+                    <span class="servico-nome">Manicure</span>
+                    <span class="servico-info">30 min</span>
+                    <span class="servico-preco">R$ 25</span>
+                </button>
+                <button type="button" class="servico-card" data-servico-id="coloracao">
+                    <span class="servico-nome">Coloração</span>
+                    <span class="servico-info">90 min</span>
+                    <span class="servico-preco">R$ 120</span>
+                </button>
+            </div>
+
+            <h2>2. Escolha o dia</h2>
+            <input type="date" id="campo-data">
+
+            <h2>3. Escolha o horário</h2>
+            <!-- horarios vem do js -->
+            <div id="lista-horarios">
+                <p class="aviso">Escolha um serviço e um dia para ver os horários.</p>
+            </div>
+
+            <h2>4. Seus dados</h2>
+            <form id="form-agendamento">
+                <label for="campo-nome">Nome</label>
+                <input type="text" id="campo-nome" placeholder="Seu nome">
+
+                <label for="campo-telefone">Telefone</label>
+                <input type="tel" id="campo-telefone" placeholder="(88) 99999-9999">
+
+                <button type="submit" id="btn-agendar">Agendar</button>
+            </form>
+        </section>
+
+        <!-- painel -->
+        <section id="aba-painel" class="conteudo-aba escondida">
+            <h2>Agenda do dia</h2>
+            <input type="date" id="painel-data">
+
+            <!-- agenda vem do js -->
+            <ul id="lista-agenda">
+                <p class="aviso">Escolha um dia para ver os atendimentos.</p>
+            </ul>
+        </section>
+    </main>
+
+    <script>
+        function animar(el, classe) {
+            el.classList.add(classe)
+            setTimeout(function () {
+                el.classList.remove(classe)
+            }, 400)
+        }
+
+        // abas
+        const abas = document.querySelectorAll('.aba')
+        const secoes = document.querySelectorAll('.conteudo-aba')
+
+        for (let i = 0; i < abas.length; i++) {
+            abas[i].addEventListener('click', function () {
+                for (let j = 0; j < abas.length; j++) {
+                    abas[j].classList.remove('aba--ativa')
+                    secoes[j].classList.add('escondida')
+                }
+                abas[i].classList.add('aba--ativa')
+                secoes[i].classList.remove('escondida')
+                animar(secoes[i], 'aparecer')
+            })
+        }
+
+        // servicos
+        const cards = document.querySelectorAll('.servico-card')
+
+        for (let i = 0; i < cards.length; i++) {
+            cards[i].addEventListener('click', function () {
+                for (let j = 0; j < cards.length; j++) {
+                    cards[j].classList.remove('servico-card--selecionado')
+                }
+                cards[i].classList.add('servico-card--selecionado')
+                animar(cards[i], 'pulsar')
+            })
+        }
+
+        document.getElementById('btn-agendar').addEventListener('click', function () {
+            animar(this, 'pulsar')
+        })
+
+        animar(document.querySelector('main'), 'aparecer')
+    </script>
+    <script type="module" src="src/services/agendar.js"></script>
+</body>
+</html>
